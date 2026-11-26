@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, DM_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import HashSession from "./HashSession";
 
 const serif = Bodoni_Moda({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-serif" });
 const mono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono" });
@@ -16,7 +17,10 @@ export const viewport: Viewport = { themeColor: "#F1ECE3", width: "device-width"
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${serif.variable} ${mono.variable} ${sans.variable}`}>
-      <body>{children}</body>
+      <body>
+        <HashSession />
+        {children}
+      </body>
     </html>
   );
 }
