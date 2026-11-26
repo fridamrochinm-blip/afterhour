@@ -6,6 +6,7 @@ import { Sparkle } from "@/app/icons";
 import type { Card } from "@/lib/types";
 import CreateForm from "./CreateForm";
 import BulkForm from "./BulkForm";
+import CopyButton from "./CopyButton";
 import { resendLink, toggleActive } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -42,6 +43,17 @@ export default async function AdminPage() {
         <h2 className="serif" style={{ fontSize: 28, fontWeight: 400, marginTop: 16 }}>
           Miembros · {cards.length} · {cards.filter((c) => c.active).length} activas
         </h2>
+        {cards.length > 0 && (
+          <div className="actions" style={{ flexWrap: "wrap" }}>
+            <CopyButton
+              label="Copiar todas las URLs"
+              text={cards.map((c) => `${c.lanyard_no ?? ""}\t${c.name}\t${base}/n/${c.token}`).join("\n")}
+            />
+            <a href="/admin/export" className="linkbtn" style={{ border: "1px solid #5a544c", borderRadius: 999, padding: "0 14px", minHeight: 36, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 13 }}>
+              Descargar Excel
+            </a>
+          </div>
+        )}
 
         {cards.length === 0 ? (
           <p className="mono">Todavía no hay tarjetas.</p>
@@ -74,6 +86,7 @@ export default async function AdminPage() {
                     </td>
                     <td>
                       <div className="actions">
+                        <CopyButton text={`${base}/n/${c.token}`} />
                         <form action={resendLink}>
                           <input type="hidden" name="id" value={c.id} />
                           <button type="submit">Mandar link</button>
