@@ -9,7 +9,7 @@ import type { FormState } from "@/lib/types";
 /** Manda la invitación (usuario nuevo) o un link para entrar (si ya existe). */
 async function sendAccessEmail(email: string, name: string): Promise<boolean> {
   const db = createAdminClient();
-  const redirectTo = `${siteUrl()}/auth/confirm?next=/editar`;
+  const redirectTo = `${siteUrl()}/auth/callback?next=/editar`;
   const { error } = await db.auth.admin.inviteUserByEmail(email, { redirectTo, data: { name } });
   if (!error) return true;
   // Ya existe la cuenta: mandar link mágico.

@@ -22,8 +22,8 @@ Stack: Next.js 15 · Supabase (base de datos, login por correo, fotos) · Vercel
 3. **Authentication → Sign In / Providers → Email**: deja Email activado. En **Authentication → Settings** desactiva **Allow new users to sign up** (tus invitaciones siguen funcionando).
 4. **Authentication → URL Configuration**:
    - Site URL: la dirección de tu sitio (primero la de Vercel, luego `https://afterhourmx.com`).
-   - Redirect URLs: agrega `https://TU-SITIO/auth/confirm` (y `http://localhost:3000/auth/confirm` si pruebas local).
-5. **Authentication → Emails → Templates**. Cambia el link de estas dos plantillas (puedes traducir el texto):
+   - Redirect URLs: agrega `https://TU-SITIO/**` (y `http://localhost:3000/auth/confirm` si pruebas local).
+5. *(Opcional; Supabase solo lo permite con SMTP propio.)* Las plantillas por defecto ya funcionan con `/auth/callback`. Si quieres traducirlas, en **Authentication → Emails → Templates** usa estos links:
    - **Invite user**:
      ```html
      <h2>Bienvenido a After Hour</h2>

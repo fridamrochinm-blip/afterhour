@@ -14,7 +14,7 @@ export async function sendMagicLink(_prev: FormState, formData: FormData): Promi
     email,
     options: {
       shouldCreateUser: false, // sin registro abierto: solo correos que tú diste de alta
-      emailRedirectTo: `${siteUrl()}/auth/confirm?next=${encodeURIComponent(next.startsWith("/") ? next : "/editar")}`,
+      emailRedirectTo: `${siteUrl()}/auth/callback?next=${encodeURIComponent(next.startsWith("/") ? next : "/editar")}`,
     },
   });
 
