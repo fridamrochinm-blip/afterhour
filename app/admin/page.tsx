@@ -5,6 +5,7 @@ import { siteUrl } from "@/lib/util";
 import { Sparkle } from "@/app/icons";
 import type { Card } from "@/lib/types";
 import CreateForm from "./CreateForm";
+import BulkForm from "./BulkForm";
 import { resendLink, toggleActive } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -32,8 +33,14 @@ export default async function AdminPage() {
         <h1 className="serif" style={{ fontSize: 40, fontWeight: 400 }}>Nuevo miembro.</h1>
         <CreateForm />
 
+        <h2 className="serif" style={{ fontSize: 28, fontWeight: 400, marginTop: 16 }}>Activar por volumen.</h2>
+        <p className="mono" style={{ textTransform: "none", letterSpacing: 0, fontSize: 14, lineHeight: 1.5 }}>
+          Cada persona conserva su misma tarjeta y su misma liga. Activar o desactivar no borra nada.
+        </p>
+        <BulkForm />
+
         <h2 className="serif" style={{ fontSize: 28, fontWeight: 400, marginTop: 16 }}>
-          Miembros · {cards.length}
+          Miembros · {cards.length} · {cards.filter((c) => c.active).length} activas
         </h2>
 
         {cards.length === 0 ? (

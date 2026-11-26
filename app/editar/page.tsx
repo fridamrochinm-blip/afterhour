@@ -48,11 +48,14 @@ export default async function EditPage() {
       </div>
 
       {card ? (
-        !card.active ? (
-          <p className="notice err">Tu tarjeta está desactivada. Contacta al equipo de After Hour.</p>
-        ) : (
+        <>
+          {!card.active && (
+            <p className="notice err">
+              Tu tarjeta está pausada: tu lanyard se activa en cada volumen de After Hour al que asistas. Puedes seguir editándola.
+            </p>
+          )}
           <EditForm card={card} />
-        )
+        </>
       ) : (
         <p className="notice err">
           No encontramos una tarjeta ligada a {user.email}. Si ya tienes tu lanyard, pide al equipo que revise tu correo.
