@@ -109,6 +109,10 @@ export default async function CardPage({ params }: Props) {
       )}
 
       <Welcome />
+
+      <a href="/login?next=/editar" className="mono" style={{ textDecoration: "underline", minHeight: 44, display: "inline-flex", alignItems: "center" }}>
+        ¿Es tu tarjeta? Edítala
+      </a>
     </main>
   );
 }
