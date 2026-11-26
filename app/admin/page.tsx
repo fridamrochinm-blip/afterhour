@@ -64,9 +64,9 @@ export default async function AdminPage() {
                 <tr>
                   <th>LANYARD</th>
                   <th>NOMBRE</th>
+                  <th>URL DEL CHIP</th>
                   <th>CORREO</th>
                   <th>ESTADO</th>
-                  <th>URL DEL CHIP</th>
                   <th></th>
                 </tr>
               </thead>
@@ -75,6 +75,12 @@ export default async function AdminPage() {
                   <tr key={c.id}>
                     <td>{c.lanyard_no ?? "—"}</td>
                     <td>{c.name}</td>
+                    <td>
+                      <div className="actions" style={{ alignItems: "center" }}>
+                        <CopyButton text={`${base}/n/${c.token}`} label="Copiar URL" />
+                        <a href={`/n/${c.token}`} target="_blank" rel="noopener noreferrer"><code>{`${base}/n/${c.token}`}</code></a>
+                      </div>
+                    </td>
                     <td>{c.email}</td>
                     <td>
                       <span className="pill" style={{ color: c.active ? "#b9d7a8" : "#f6a3a3" }}>
@@ -82,11 +88,8 @@ export default async function AdminPage() {
                       </span>
                     </td>
                     <td>
-                      <a href={`/n/${c.token}`} target="_blank" rel="noopener noreferrer"><code>{`${base}/n/${c.token}`}</code></a>
-                    </td>
-                    <td>
                       <div className="actions">
-                        <CopyButton text={`${base}/n/${c.token}`} />
+                        <Link href={`/admin/miembro/${c.id}`} className="linkbtn" style={{ border: "1px solid #5a544c", borderRadius: 999, padding: "0 12px", minHeight: 36, textTransform: "none", letterSpacing: 0, fontFamily: "var(--font-sans)", fontSize: 13 }}>Editar</Link>
                         <form action={resendLink}>
                           <input type="hidden" name="id" value={c.id} />
                           <button type="submit">Mandar link</button>
