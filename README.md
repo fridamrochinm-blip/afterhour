@@ -60,9 +60,9 @@ Stack: Next.js 15 · Supabase (base de datos, login por correo, fotos) · Vercel
 
 ## Operación diaria
 
-1. Entregas el lanyard → en `/admin` capturas nombre, teléfono, correo y Nº de lanyard → **Crear tarjeta y enviar link**.
+1. En `/admin` capturas nombre, teléfono, correo y Nº de lanyard → **Crear tarjeta**. No se manda ningún correo.
 2. Copias la **URL del chip** que aparece y la grabas en el NFC (app gratuita *NFC Tools* en iPhone/Android → Escribir → Agregar registro → URL).
-3. La persona abre su correo → edita su tarjeta. Si pierde el correo: **Reenviar link**, o ella misma lo pide en `/login`.
+3. Para editar, la persona toca su lanyard → **¿Es tu tarjeta? Edítala** → recibe un link en su correo. También puedes mandárselo tú con **Mandar link**.
 4. Lanyard perdido o persona dada de baja → **Desactivar**: el chip muestra "Esta tarjeta no está disponible" sin datos.
 
 ## Antes de grabar los 200 chips

@@ -58,8 +58,8 @@ export default async function AdminPage() {
                     <td>{c.name}</td>
                     <td>{c.email}</td>
                     <td>
-                      <span className="pill" style={{ color: !c.active ? "#f6a3a3" : c.user_id ? "#b9d7a8" : "#cfc6b8" }}>
-                        {!c.active ? "DESACTIVADA" : c.user_id ? "ACTIVA" : "SIN ENTRAR"}
+                      <span className="pill" style={{ color: c.active ? "#b9d7a8" : "#f6a3a3" }}>
+                        {c.active ? "ACTIVA" : "DESACTIVADA"}
                       </span>
                     </td>
                     <td>
@@ -69,7 +69,7 @@ export default async function AdminPage() {
                       <div className="actions">
                         <form action={resendLink}>
                           <input type="hidden" name="id" value={c.id} />
-                          <button type="submit">Reenviar link</button>
+                          <button type="submit">Mandar link</button>
                         </form>
                         <form action={toggleActive}>
                           <input type="hidden" name="id" value={c.id} />

@@ -35,7 +35,7 @@ export default function CreateForm() {
       {state.error && <p className="notice err" role="alert">{state.error}</p>}
       {state.ok && <p className="notice ok" role="status" style={{ overflowWrap: "anywhere" }}>{state.message}</p>}
       <button className="btn light" type="submit" disabled={pending}>
-        {pending ? "Creando…" : "Crear tarjeta y enviar link"}
+        {pending ? "Creando…" : "Crear tarjeta"}
       </button>
     </form>
   );

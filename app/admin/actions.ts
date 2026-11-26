@@ -6,18 +6,31 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { clean, generateToken, isEmail, siteUrl } from "@/lib/util";
 import type { FormState } from "@/lib/types";
 
-/** Manda la invitación (usuario nuevo) o un link para entrar (si ya existe). */
-async function sendAccessEmail(email: string, name: string): Promise<boolean> {
+/**
+ * Crea la cuenta del miembro SIN mandar correo. Así puede entrar más tarde
+ * desde "¿Es tu tarjeta? Edítala" (el login no permite cuentas nuevas).
+ * Devuelve el id del usuario si se creó, null si ya existía.
+ */
+async function ensureAccount(email: string, name: string): Promise<{ id: string | null; error?: string }> {
   const db = createAdminClient();
-  const redirectTo = `${siteUrl()}/auth/callback?next=/editar`;
-  const { error } = await db.auth.admin.inviteUserByEmail(email, { redirectTo, data: { name } });
-  if (!error) return true;
-  // Ya existe la cuenta: mandar link mágico.
-  const { error: otpErr } = await db.auth.signInWithOtp({
+  const { data, error } = await db.auth.admin.createUser({
     email,
-    options: { shouldCreateUser: false, emailRedirectTo: redirectTo },
+    email_confirm: true,
+    user_metadata: { name },
   });
-  return !otpErr;
+  if (!error) return { id: data.user?.id ?? null };
+  if (error.status === 422 || /already|exists|registered/i.test(error.message)) return { id: null };
+  return { id: null, error: "No se pudo crear la cuenta de acceso." };
+}
+
+/** Manda al miembro un link para entrar a editar su tarjeta. */
+async function sendAccessEmail(email: string): Promise<boolean> {
+  const db = createAdminClient();
+  const { error } = await db.auth.signInWithOtp({
+    email,
+    options: { shouldCreateUser: false, emailRedirectTo: `${siteUrl()}/auth/callback?next=/editar` },
+  });
+  return !error;
 }
 
 export async function createCard(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -32,8 +45,16 @@ export async function createCard(_prev: FormState, formData: FormData): Promise<
   if (!isEmail(email)) return { error: "El correo no es válido." };
 
   const db = createAdminClient();
+  const { data: dup } = await db.from("cards").select("id").eq("email", email).maybeSingle();
+  if (dup) return { error: "Ya existe una tarjeta con ese correo." };
+
+  const account = await ensureAccount(email, name);
+  if (account.error) return { error: account.error };
+
   const token = generateToken();
-  const { error } = await db.from("cards").insert({ token, name, phone, email, lanyard_no: lanyard });
+  const { error } = await db
+    .from("cards")
+    .insert({ token, name, phone, email, lanyard_no: lanyard, user_id: account.id });
 
   if (error) {
     if (error.code === "23505") {
@@ -42,11 +63,8 @@ export async function createCard(_prev: FormState, formData: FormData): Promise<
     return { error: "No se pudo crear la tarjeta." };
   }
 
-  const sent = await sendAccessEmail(email, name);
   revalidatePath("/admin");
-  return sent
-    ? { ok: true, message: `Tarjeta creada. Le enviamos el link a ${email}. Graba en su chip: ${siteUrl()}/n/${token}` }
-    : { ok: true, message: `Tarjeta creada, pero el correo no salió (revisa el SMTP en Supabase). Usa “Reenviar link”. Chip: ${siteUrl()}/n/${token}` };
+  return { ok: true, message: `Tarjeta creada para ${name}. URL para su chip: ${siteUrl()}/n/${token}` };
 }
 
 export async function toggleActive(formData: FormData) {
@@ -61,6 +79,9 @@ export async function resendLink(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id"));
   const { data } = await createAdminClient().from("cards").select("email, name").eq("id", id).maybeSingle();
-  if (data) await sendAccessEmail(data.email, data.name);
+  if (data) {
+    await ensureAccount(data.email, data.name);
+    await sendAccessEmail(data.email);
+  }
   revalidatePath("/admin");
 }
