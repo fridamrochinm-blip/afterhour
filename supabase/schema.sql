@@ -78,6 +78,13 @@ create policy "admin reads own row" on public.admins
 
 -- Sin políticas de insert/delete: solo el servidor (admin) crea o borra.
 
+-- Permisos de tabla (Supabase ya no los otorga automáticamente en proyectos nuevos)
+grant usage on schema public to authenticated, service_role;
+grant select, insert, update, delete on public.cards  to service_role;
+grant select, insert, update, delete on public.admins to service_role;
+grant select, update on public.cards  to authenticated;
+grant select         on public.admins to authenticated;
+
 -- ─────────────────────────────────────────────
 -- Fotos de perfil (Storage)
 -- ─────────────────────────────────────────────
