@@ -15,13 +15,17 @@ export default async function EditPage() {
   let { data: card } = await supabase.from("cards").select("*").eq("user_id", user.id).maybeSingle<Card>();
 
   // Primer ingreso: liga la tarjeta que el admin creó con este correo.
+  // (Se usa la fila que devuelve el update: repetir la misma consulta GET
+  // regresaría el resultado vacío memorizado durante este render.)
   if (!card && user.email) {
-    await createAdminClient()
+    const { data: claimed } = await createAdminClient()
       .from("cards")
       .update({ user_id: user.id })
       .eq("email", user.email.toLowerCase())
-      .is("user_id", null);
-    ({ data: card } = await supabase.from("cards").select("*").eq("user_id", user.id).maybeSingle<Card>());
+      .is("user_id", null)
+      .select("*")
+      .maybeSingle<Card>();
+    card = claimed;
   }
 
   const admin = await isAdmin();
