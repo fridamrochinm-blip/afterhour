@@ -1,0 +1,91 @@
+:root {
+  --cream: #f1ece3;
+  --cream-2: #fbf8f3;
+  --sand: #ddd5c8;
+  --line: #cfc6b8;
+  --ink: #141414;
+  --ink-2: #3a3632;
+  --muted: #5a544c;
+  --coral: #f2545b;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--cream); color: var(--ink); }
+body { font-family: var(--font-sans), system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: var(--ink); }
+img { max-width: 100%; }
+
+.page { max-width: 440px; margin: 0 auto; padding: 28px 24px 40px; display: flex; flex-direction: column; gap: 26px; min-height: 100dvh; }
+.page.center { align-items: center; }
+.page.dark { background: var(--ink); color: var(--cream); max-width: none; }
+.page.dark .inner { max-width: 720px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+
+.serif { font-family: var(--font-serif), serif; font-weight: 500; letter-spacing: -0.02em; line-height: 1.03; margin: 0; }
+.mono { font-family: var(--font-mono), monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.dark .mono { color: var(--line); }
+.muted { color: var(--ink-2); }
+.center-text { text-align: center; }
+
+.logo { width: 196px; height: auto; mix-blend-mode: multiply; }
+
+.avatar { position: relative; width: 148px; height: 148px; }
+.avatar .disc { position: absolute; right: -10px; bottom: -6px; width: 92px; height: 92px; border-radius: 50%; background: var(--coral); }
+.avatar .photo { position: absolute; inset: 0; border-radius: 50%; background: var(--sand); border: 3px solid var(--cream); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.avatar .photo img { width: 100%; height: 100%; object-fit: cover; }
+.avatar .initials { font-family: var(--font-serif), serif; font-size: 48px; color: var(--muted); }
+.avatar .star { position: absolute; right: -26px; top: -6px; }
+
+.btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 54px; padding: 0 22px; border-radius: 999px; border: 0; background: var(--ink); color: var(--cream); font: 600 16px var(--font-sans), sans-serif; text-decoration: none; cursor: pointer; }
+.btn:hover { background: #000; color: var(--cream); }
+.btn:disabled { opacity: 0.6; cursor: default; }
+.btn.light { background: var(--cream); color: var(--ink); }
+.btn.outline { background: transparent; color: inherit; border: 1px solid currentColor; }
+.btn.small { width: auto; min-height: 44px; font-size: 14px; font-weight: 500; }
+
+.links { width: 100%; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.links a { display: flex; align-items: center; gap: 14px; min-height: 62px; border-bottom: 1px solid var(--line); text-decoration: none; }
+.links a:hover .value { text-decoration: underline; }
+.links .label { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.links .value { font-size: 15px; overflow-wrap: anywhere; }
+
+.welcome { width: 100%; background: var(--ink); color: var(--cream); border-radius: 24px; padding: 28px 24px; display: flex; flex-direction: column; gap: 14px; }
+.welcome .mono { color: var(--line); }
+
+form.stack, .stack { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.input { width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--cream-2); font: 400 16px var(--font-sans), sans-serif; color: var(--ink); }
+textarea.input { padding: 12px 14px; min-height: 96px; resize: vertical; }
+.input:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+.input:disabled { background: transparent; border-style: dashed; color: var(--muted); }
+.dark .input { background: #1e1c1a; border-color: #3a3632; color: var(--cream); }
+.dark .input:focus { outline-color: var(--cream); }
+.check { display: flex; align-items: center; justify-content: space-between; min-height: 48px; font-size: 15px; }
+.check input { width: 22px; height: 22px; accent-color: var(--ink); }
+
+.notice { padding: 12px 14px; border-radius: 12px; font-size: 14px; line-height: 1.45; }
+.notice.ok { background: #e3eadb; color: #22361a; }
+.notice.err { background: #f6dcdc; color: #6b1717; }
+.dark .notice.ok { background: #22361a; color: #e3eadb; }
+.dark .notice.err { background: #4a1414; color: #f6dcdc; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.topbar a, .linkbtn { font-family: var(--font-mono), monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; background: none; border: 0; color: inherit; cursor: pointer; padding: 0; }
+
+.photo-row { display: flex; align-items: center; gap: 16px; }
+.photo-row .thumb { width: 84px; height: 84px; border-radius: 50%; background: var(--sand); overflow: hidden; flex: none; display: flex; align-items: center; justify-content: center; }
+.photo-row .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } }
+
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table-wrap { overflow-x: auto; border: 1px solid #3a3632; border-radius: 16px; }
+.table th, .table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #2a2724; vertical-align: middle; white-space: nowrap; }
+.table th { font-family: var(--font-mono), monospace; font-size: 11px; letter-spacing: 0.14em; color: var(--line); font-weight: 400; }
+.table tr:last-child td { border-bottom: 0; }
+.pill { font-family: var(--font-mono), monospace; font-size: 11px; letter-spacing: 0.1em; padding: 4px 8px; border-radius: 999px; border: 1px solid currentColor; }
+.actions { display: flex; gap: 8px; }
+.actions form { display: inline; }
+.actions button { min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid #5a544c; background: transparent; color: var(--cream); font: 500 13px var(--font-sans), sans-serif; cursor: pointer; }
+.actions button:hover { border-color: var(--cream); }
+code { font-family: var(--font-mono), monospace; font-size: 12px; }
